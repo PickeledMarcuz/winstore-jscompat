@@ -156,10 +156,15 @@
                 configurable: propertyDescriptor.configurable,
             });
         }
-        cleansePropertySetter("innerHTML", function (propertyDescriptor, target, elements) {
+        cleansePropertySetter("innerHTML", function (propDesc, target, elements) {
             empty(target);
-            for (var i = 0, len = elements.length; i < len; i++) {
-                target.appendChild(elements[i]);
+            for (var eix = 0, elen = elements.length; eix &lt; elen; eix++) {
+                if (elements[eix].nodeName == 'BODY') {
+                    for (var cix = 0, clen = elements[eix].childNodes.length;
+                            cix &lt; clen; cix++) {
+                        target.appendChild(elements[eix].childNodes[0]);
+                    }
+                }
             }
         });
         cleansePropertySetter("outerHTML", function (propertyDescriptor, target, elements) {
